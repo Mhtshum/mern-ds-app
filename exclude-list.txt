@@ -1,0 +1,9 @@
+.git*
+.gitignore
+README.md
+LICENSE
+package.json
+*.snap
+**\__snapshots__*\*
+exclude-list.txt
+exclude-list-back.txt

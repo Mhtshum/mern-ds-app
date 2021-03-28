@@ -1,0 +1,4 @@
+node_modules
+New folder
+exclude-list.txt
+exclude-list-back.txt
