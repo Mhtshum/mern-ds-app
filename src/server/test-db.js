@@ -6,7 +6,7 @@ export const showDB = async () => {
   console.log(db);
 };
 
-export async function  showCollection(collectionName,predicate={id:1234}){
+export async function  showCollection(collectionName,predicate={}){
   let db = await connectDB();
   let collections = await db.collection(collectionName).find(predicate);  
   
@@ -20,6 +20,21 @@ export async function  showCollection(collectionName,predicate={id:1234}){
   console.log('***********************');
 }
 
-  showCollection('tasks',{ id : '9ce22c71-c9a1-469a-a078-5fd1e0c3796d'});  
+export async function  deleteDB(){
+  let db = await connectDB();
+  await db.dropDatabase('re-initializing');
+}
+
+export async function  deleteCollection(cname){
+  let db = await connectDB();
+  //let collections = await db.collection(collectionName);
+  //await collections.drop();
+  // or simply call
+  await db.dropCollection(collectionName);  
+}
+
+
+  //showCollection('tasks',{ id : //'9ce22c71-c9a1-469a-a078-5fd1e0c3796d'});  
 
 //showDB();
+showCollection('users');
