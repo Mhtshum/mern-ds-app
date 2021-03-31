@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { requestTaskCreation } from '../store/mutations';
 import { Link } from 'react-router-dom';
 
-export const TaskList = ({tasks,name,id,createNewTask}) => {
+export const TaskList = ({tasks, name , id, owner, createNewTask}) => {
   return (
     <div key={id}>            
         { tasks.map (t =>           
@@ -14,25 +14,26 @@ export const TaskList = ({tasks,name,id,createNewTask}) => {
           </Link>          
           )
         }
-      <button onClick={()=>createNewTask(id)}>Add New</button>        
+      <button onClick={()=>createNewTask(id,owner)}>Add New</button>        
     </div>
   );
 };
 
 function mapStateToProps ( state, ownProps){
-  let groupID = ownProps.id;
+  let groupID = ownProps.id;  
   return {
     name: ownProps.name,
-    id: groupID,    
+    id: groupID,        
+    owner: state.session.id,
     tasks:state.tasks.filter(t=> t.group === groupID)  
    };
 }
 
 const mapsDispatchToProps = (dispatch,ownProps) => {
   return {
-    createNewTask(id){
+    createNewTask(id, owner){
       console.log(`from mapsDispatchToProps ${id}`);
-      dispatch(requestTaskCreation(id));
+      dispatch(requestTaskCreation(id, owner));
     }
   }  
 };

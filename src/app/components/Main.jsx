@@ -24,7 +24,7 @@ const RouteGuard = Component => ({match}) => {
 
 export const Main = () => {
   return (
-    <Router history={history}>
+    <Router>
       <Provider store={store}>
         <div>
           <ConnectedNavigation />          

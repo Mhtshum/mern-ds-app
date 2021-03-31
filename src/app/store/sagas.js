@@ -4,16 +4,18 @@ import {
 import * as mutations from './mutations';
 import { v4 as uuid} from 'uuid';
 import axios from 'axios';
+import { history } from './history';
 
 const url = "http://11.11.11.5:7070";
 //const url = "http://localhost:7070";
 
 export function* taskCreationSaga(){
   while (true) {
-    const {groupID} = yield take(mutations.REQUEST_TASK_CREATION);
-    const ownerID = 'U1';
+    //take will catch the dipatch b4 handling over to redux via put 
+    const {groupID,owner} = yield take(mutations.REQUEST_TASK_CREATION);
+    const ownerID = owner;
     const taskID = uuid();
-    //put send out action we have to the store. 
+    //put send out(handling to redux)  action we have to the store. 
     yield put(mutations.createTask(taskID,groupID,ownerID))
     console.log('task id is ', taskID);
     const { res } = yield axios.post(url + '/task/new' ,{ 
@@ -44,5 +46,31 @@ export function* taskModificaitonSaga(){
         name : task.name
       }
     });
+  }
+}
+
+export function* createAuthenticationSaga(){
+  while(true){
+    const {username,password} = yield take(
+      mutations.REQUEST_AUTHENTICATE_USER);
+      
+    try{
+      const { data } =  yield axios.post(url +'/authenticate',{
+        username,
+        password
+      });
+      
+      if(!data) {
+        throw new Error("Invalid username and password");
+      }
+     
+      console.log('authenticated',data);     
+      yield put(mutations.setState(data.state));
+      yield put(mutations.processAuthenticateUser(mutations.AUTHENTICATED));
+     
+    }catch(e){
+      console.log("can't authenticate ",e.message);
+      yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED));
+    }
   }
 }

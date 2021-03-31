@@ -1,20 +1,23 @@
-import  MD5  from 'md5.js';
+import { hashString } from './hashUtility';
 
 export const defaultState = {
+  session:{
+    authenticated : false  
+  },
   users:[{
     id:"u1",
     name:"dev",
-    passwordHash:new MD5().update('Tuples').digest('hex')
+    passwordHash: hashString("Tuples")
   },
   {
     id:"u2",
     name:"ali",
-    passwordHash:new MD5().update("KaramAllahWajoh").digest('hex')
+    passwordHash: hashString("KaramAllahWajoh")
   },
   {
     id:"u3",
     name:"usman",
-    passwordHash:new MD5().update('Ghani').digest('hex')
+    passwordHash: hashString("Ghani")
   }],
   groups:[{
     id:"g1",

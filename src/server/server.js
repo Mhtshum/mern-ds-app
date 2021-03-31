@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { connectDB } from './connect-db';
+import { authenticationRoute } from './authenticate';
+import { hashString } from './hashUtility';
 // importing whole file without importing any constants fn or anything
 import './initialize-db';
 
@@ -25,10 +27,18 @@ app.use(
   bodyParser.json()
 );
 
+authenticationRoute(app);
+
 export const addNewTask = async task => {
   let db = await connectDB();
   let collection = db.collection('tasks');
   await collection.insertOne(task);  
+};
+
+export const verifyUser = async (username, password) => {
+  let db = await connectDB();
+  let user = await db.collection('users').findOne({name: username, password : hashString(password)});
+  return user !== null ;  
 };
 
 export const updateTask = async task => {
@@ -46,8 +56,7 @@ export const updateTask = async task => {
   
   if(isComplete !== undefined){
     await collection.updateOne({id}, {$set:{isComplete}});    
-  }  
-  
+  }    
 };
 
 /*currently till date we don't have front UI to test so we are using spec which is a way to do that */
@@ -62,3 +71,11 @@ app.post('/task/update', async (req,res)=>{
   await updateTask(task);
   res.status(200).send();
 });
+
+/*
+app.post('/authenticate', async (req,res)=>{
+  let userInfo = req.body.userInfo;
+  let isVerified = await verifyUser(userInfo.username,userInfo.password);
+  res.status(200).send(isVerified);
+});
+*/
