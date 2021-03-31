@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 import * as mutations from '../store/mutations';
 
-const LoginComponent = ({authenticated,authenticateUser}) => <div> 
+const LoginComponent = ({authenticated,authenticateUser, history}) => <div> 
       <h2>Please Login!</h2>
       <form onSubmit={authenticateUser}>
         <input type="text" defaultValue="dev" placeholder="Enter Username" id="username" />
@@ -11,7 +10,7 @@ const LoginComponent = ({authenticated,authenticateUser}) => <div>
         <button type="submit">Login</button>
         {authenticated !== mutations.AUTHENTICATED 
         ?   <p> You're not authenticated</p>
-        :  <Redirect to="/dashboard" />}
+        :  history.push("/dashboard")}
       </form>
     </div>
 

@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 // diff. b/w Router & BrowserRouter
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import { history } from '../store/history';
 import { ConnectedNavigation } from './Navigation';
 import { store } from '../store';
 import {ConnectedDashboard}  from './Dashboard';
