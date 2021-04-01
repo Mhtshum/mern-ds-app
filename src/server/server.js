@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 import { connectDB } from './connect-db';
 import { authenticationRoute } from './authenticate';
 import { hashString } from './hashUtility';
@@ -8,7 +9,7 @@ import { hashString } from './hashUtility';
 import './initialize-db';
 
 const app = express();
-const port = 7070;
+const port = process.env.PORT || 7070;
 
 app.listen(port,console.log('listening on ',port));
 
@@ -28,6 +29,13 @@ app.use(
 );
 
 authenticationRoute(app);
+
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname,'../../dist')))
+  app.get('/*',(req,res=>{
+    res.send(path.resolve('index.html'));
+  }));
+}
 
 export const addNewTask = async task => {
   let db = await connectDB();

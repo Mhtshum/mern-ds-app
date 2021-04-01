@@ -6,7 +6,7 @@ import { v4 as uuid} from 'uuid';
 import axios from 'axios';
 import { history } from './history';
 
-const url = "http://11.11.11.5:7070";
+const url = process.env.NODE_ENV === 'production' ? '' : "http://11.11.11.5:7070";
 //const url = "http://localhost:7070";
 
 export function* taskCreationSaga(){
