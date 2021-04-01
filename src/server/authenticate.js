@@ -8,7 +8,6 @@ export const authenticationRoute = async (app) => {
   app.post('/authenticate', async (req,res)=>{
     let { username , password } = req.body;
     let user = await verifyUser(username);
-    console.log('Authentication request',username, user);
     
     if(!user) {
       return res.status(500).send('User not found!');

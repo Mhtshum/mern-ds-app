@@ -1,5 +1,5 @@
 import { hashString } from './hashUtility';
-
+/* remember session obj. can'nt, so when using first time for new db as it would be inserted bulk wise and that method expecting array not a single obj. then delete this one */
 export const defaultState = {
   session:{
     authenticated : false  
