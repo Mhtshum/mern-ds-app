@@ -1,4 +1,10 @@
-# ReactAndRedux
-following Corey House PS course
-for tutorials
-https://reactrouter.com/web/guides/quick-start
+# React full stack app with 
+- EXPRESS 
+- MONGODB 
+- NODEJS
+- REDUX
+- SAGA
+
+# App features
+- Routing using history & redirects as well- 
+- Authentication using GuardRoute
